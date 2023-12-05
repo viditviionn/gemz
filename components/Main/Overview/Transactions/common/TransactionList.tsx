@@ -8,54 +8,58 @@ import {
   Text,
   VStack,
 } from "@gluestack-ui/themed";
-interface Transaction {
+interface RelatedTrade {
   id: string;
-  type: string;
+  custodian_name: string;
+  client_name: string;
+  created_at: string;
+  modified_at: string;
+  statement_date: string;
+  meta: Record<string, any>;
+  reference_number: string;
+  isin: string;
+  asset_class: string;
+  trade_date: string;
+  settlement_date: string;
+  trade_action: string | null;
+  description: string;
   currency: string;
-  title: string;
-  referenceNumber: string;
-  transactionDate: string;
+  cost_price: number;
   quantity: number;
-  averagePrice: number;
   debit: number;
   credit: number;
-  settlementDate: string;
-  settlementAmount: string;
-  description: string;
+  settlement_amount: number;
+  client: string;
+  custodian: string;
+  relationship_number: string;
 }
 
-interface ITransactionCardProps {
-  transaction: Transaction;
-}
-
-function TransactionCard({ transaction }: ITransactionCardProps) {
+function TransactionCard(transaction: RelatedTrade) {
   return (
     <VStack space="md" style={styles.card}>
       <HStack space="md" justifyContent="flex-end" alignItems="center">
         <Badge>
-          <BadgeText>{transaction.referenceNumber}</BadgeText>
+          <BadgeText>{transaction.relationship_number}</BadgeText>
         </Badge>
         <Badge action="success">
-          <BadgeText>{transaction.type}</BadgeText>
+          <BadgeText>{transaction.trade_action}</BadgeText>
         </Badge>
         <Badge variant="outline" action="muted">
           <BadgeText>{transaction.currency}</BadgeText>
         </Badge>
       </HStack>
-      <Text style={styles.title}>{transaction.title}</Text>
+      <Text style={styles.title}>{transaction.isin}</Text>
       <VStack space="md">
         <HStack style={styles.parentItemContainer}>
           <VStack style={styles.itemContainer}>
             <Text style={styles.itemTitle}>Reference Number</Text>
             <Text style={styles.itemSubtitle}>
-              {transaction.referenceNumber}
+              {transaction.reference_number}
             </Text>
           </VStack>
           <VStack style={styles.itemContainer}>
             <Text style={styles.itemTitle}>Transaction Date</Text>
-            <Text style={styles.itemSubtitle}>
-              {transaction.transactionDate}
-            </Text>
+            <Text style={styles.itemSubtitle}>{transaction.trade_date}</Text>
           </VStack>
         </HStack>
         <HStack style={styles.parentItemContainer}>
@@ -65,7 +69,7 @@ function TransactionCard({ transaction }: ITransactionCardProps) {
           </VStack>
           <VStack style={styles.itemContainer}>
             <Text style={styles.itemTitle}>Average Price</Text>
-            <Text style={styles.itemSubtitle}>{transaction.averagePrice}</Text>
+            <Text style={styles.itemSubtitle}>{transaction.cost_price}</Text>
           </VStack>
         </HStack>
         <HStack style={styles.parentItemContainer}>
@@ -82,13 +86,13 @@ function TransactionCard({ transaction }: ITransactionCardProps) {
           <VStack style={styles.itemContainer}>
             <Text style={styles.itemTitle}>Settlement Date</Text>
             <Text style={styles.itemSubtitle}>
-              {transaction.settlementDate}
+              {transaction.settlement_date}
             </Text>
           </VStack>
           <VStack style={styles.itemContainer}>
             <Text style={styles.itemTitle}>Settlement Amount</Text>
             <Text style={styles.itemSubtitle}>
-              {transaction.settlementAmount}
+              {transaction.settlement_amount}
             </Text>
           </VStack>
         </HStack>
@@ -101,47 +105,20 @@ function TransactionCard({ transaction }: ITransactionCardProps) {
   );
 }
 
-const dummyData: Transaction[] = [
-  {
-    id: "1",
-    type: "Deposit",
-    currency: "SGD",
-    title: "Singapore Dollar (By order of DBS Singapore)",
-    referenceNumber: "350735379",
-    transactionDate: "12-12-2023",
-    quantity: 100,
-    averagePrice: 50,
-    debit: 0,
-    credit: 100,
-    settlementDate: "12-12-2023",
-    settlementAmount: "100K",
-    description: "Singapore Dollar",
-  },
-  {
-    id: "2",
-    type: "Withdrawal",
-    currency: "SGD",
-    title: "Singapore Dollar (By order of DBS Singapore)",
-    referenceNumber: "350735379",
-    transactionDate: "12-12-2023",
-    quantity: 100,
-    averagePrice: 50,
-    debit: 100,
-    credit: 0,
-    settlementDate: "12-12-2023",
-    settlementAmount: "100K",
-    description: "Singapore Dollar",
-  },
-];
-
-export default function TransactionList() {
+export default function TransactionList({
+  transactions,
+}: {
+  transactions?: RelatedTrade[];
+}) {
+  console.log(transactions);
   return (
     <FlatList
-      data={dummyData}
-      renderItem={({ item }: { item: Transaction }) => (
-        <TransactionCard transaction={item} />
-      )}
-      keyExtractor={(item: Transaction) => item.id}
+      data={transactions}
+      renderItem={({ item }: { item: RelatedTrade }) => {
+        return <TransactionCard {...item} />;
+      }}
+      keyExtractor={(item: RelatedTrade) => item.id}
+      showsVerticalScrollIndicator={false}
     />
   );
 }

@@ -29,11 +29,11 @@ type TAssetClassType = keyof typeof AssetClassMap | undefined;
 export interface TGoalsType {
   id: string;
   name: string;
-  asset_class_preference: TAssetClassType[];
+  asset_class_preference?: TAssetClassType[];
   holding_period: string;
   investment_horizon: string;
   liquidity_needs: string;
-  return_expectations: keyof typeof ReturnExpectationsMap | undefined;
+  return_expectations?: keyof typeof ReturnExpectationsMap;
 }
 
 const BenificiaryMap = {

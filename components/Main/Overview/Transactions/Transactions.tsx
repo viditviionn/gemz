@@ -8,82 +8,39 @@ import {
   Divider,
   FlatList,
   HStack,
-  Icon,
   Input,
   InputField,
   InputIcon,
   InputSlot,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectIcon,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
+  Spinner,
   Text,
   View,
   VStack,
 } from "@gluestack-ui/themed";
 
-import {
-  ChevronDownIcon,
-  PieChart,
-  SearchIcon,
-  Tag,
-  X,
-} from "lucide-react-native";
+import { useTransactionServerQuery } from "../../../../hooks/useQuery";
+import buildURLSearchParams from "../../../../lib/buildURLSearchParams";
+
+import SelectCustodian from "./common/SelectCustodian";
+
+import { PieChart, SearchIcon, Tag } from "lucide-react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-interface ITransactionCardProps {
-  name: string;
-  symbol: string;
-  assetClass: string;
-  numberOfTrades: number;
-}
-const transactionData = [
-  {
-    name: "LGT",
-    symbol: "LGT",
-    assetClass: "Equity & Equivalent",
-    numberOfTrades: 2,
-  },
-  {
-    name: "DBS",
-    symbol: "DBS",
-    assetClass: "Cash & Equivalent",
-    numberOfTrades: 2,
-  },
-  {
-    name: "BOS",
-    symbol: "BOS",
-    assetClass: "Cash & Equivalent",
-    numberOfTrades: 2,
-  },
-  {
-    name: "JBS",
-    symbol: "JBS",
-    assetClass: "Cash & Equivalent",
-    numberOfTrades: 2,
-  },
-];
 function TransactionCard({
-  name,
-  symbol,
-  assetClass,
-  numberOfTrades,
-}: ITransactionCardProps) {
+  isin,
+  description,
+  asset_class,
+  related_trades,
+}: Result) {
   return (
     <VStack style={styles.card}>
       <TouchableOpacity
         onPress={() => {
-          router.push("/(modals)/TransactionDetail");
+          router.push(`/TransactionDetail${buildURLSearchParams({ isin })}`);
         }}
       >
         <View style={styles.headerContainer}>
-          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>{description}</Text>
         </View>
         <Divider my="$0.5" />
         <HStack
@@ -93,65 +50,89 @@ function TransactionCard({
         >
           <Badge size="md" style={styles.item}>
             <BadgeIcon as={Tag} mr="$2" />
-            <BadgeText>{symbol}</BadgeText>
+            <BadgeText>{isin}</BadgeText>
           </Badge>
           <Badge size="md" style={styles.item}>
             <BadgeIcon as={PieChart} mr="$2" />
-            <BadgeText>{assetClass}</BadgeText>
+            <BadgeText>{asset_class}</BadgeText>
           </Badge>
-          <Text style={styles.itemText}>{numberOfTrades} Trades</Text>
+          <Text style={styles.itemText}>{related_trades.length} Trades</Text>
         </HStack>
       </TouchableOpacity>
     </VStack>
   );
 }
 
+const URLs = {
+  get: "/statement/trade/trade_aggregation/",
+};
+
+interface RelatedTrade {
+  id: string;
+  custodian_name: string;
+  client_name: string;
+  created_at: string;
+  modified_at: string;
+  statement_date: string;
+  meta: Record<string, any>;
+  reference_number: string;
+  isin: string;
+  asset_class: string;
+  trade_date: string;
+  settlement_date: string;
+  trade_action: string | null;
+  description: string;
+  currency: string;
+  cost_price: number;
+  quantity: number;
+  debit: number;
+  credit: number;
+  settlement_amount: number;
+  client: string;
+  custodian: string;
+  relationship_number: string;
+}
+
+interface Result {
+  isin: string;
+  asset_class: string;
+  description: string;
+  client_name: string;
+  quantity: number;
+  related_trades: RelatedTrade[];
+}
+
+interface JsonResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Result[];
+}
+
+function useTransactions(searchQuery: string) {
+  const { data, isLoading } = useTransactionServerQuery<JsonResponse>(URLs.get);
+  const filteredData = data?.results.filter((item) =>
+    item.description.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+  return { filteredData, isLoading };
+}
+
 export default function Transactions() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const filteredData = transactionData.filter((transaction) =>
-    transaction.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-  const renderItem = ({ item }: { item: ITransactionCardProps }) => (
+
+  const renderItem = ({ item }: { item: Result }) => (
     <TransactionCard {...item} />
   );
+  const { filteredData, isLoading } = useTransactions(searchQuery);
+
+  if (isLoading) {
+    return <Spinner size="small" />;
+  }
+
   return (
     <VStack>
       <VStack space="md">
-        <Select
-          onValueChange={(value: string) => {
-            setSelectedOption(value);
-          }}
-        >
-          <SelectTrigger variant="outline" size="md">
-            <SelectInput placeholder="Select option" />
-            <SelectIcon mr="$3">
-              {selectedOption !== "" ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedOption("");
-                  }}
-                >
-                  <Icon as={X} />
-                </TouchableOpacity>
-              ) : (
-                <Icon as={ChevronDownIcon} />
-              )}
-            </SelectIcon>
-          </SelectTrigger>
-          <SelectPortal>
-            <SelectBackdrop />
-            <SelectContent>
-              <SelectDragIndicatorWrapper>
-                <SelectDragIndicator />
-              </SelectDragIndicatorWrapper>
-              <SelectItem label="DBS" value="dbs" />
-              <SelectItem label="LGT" value="lgt" />
-              <SelectItem label="BOS" value="bos" />
-              <SelectItem label="JBS" value="jbs" />
-            </SelectContent>
-          </SelectPortal>
-        </Select>
+        <SelectCustodian />
         <Input>
           <InputSlot pl="$3">
             <InputIcon as={SearchIcon} />
@@ -168,7 +149,7 @@ export default function Transactions() {
         <FlatList
           data={filteredData}
           renderItem={renderItem}
-          keyExtractor={(item: ITransactionCardProps) => item.name}
+          keyExtractor={(item: Result) => item.isin}
         />
       </VStack>
     </VStack>
