@@ -1,45 +1,38 @@
 import React from "react";
-import { FlatList } from "@gluestack-ui/themed";
+import { FlatList, Spinner } from "@gluestack-ui/themed";
 
-import { type IHoldingsCard } from "../Holdings";
+import { useTransactionServerQuery } from "../../../../../hooks/useQuery";
+import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
 
 import HoldingsCard from "./HoldingsCard";
 
-const holdingsData: IHoldingsCard[] = [
-  {
-    id: 1,
-    name: "LGT BANK (SINGAPORE) LTD",
-    account_number: "LGT-601125-188",
-    account_type: "position",
-    relationship_number: "LGT-601125-188",
-    currency: "SGD",
-  },
-  {
-    id: 2,
-    name: "LGT BANK (SINGAPORE) LTD",
-    account_number: "LGT-601125-188",
-    account_type: "position",
-    relationship_number: "LGT-601125-188",
-    currency: "SGD",
-  },
-  {
-    id: 3,
-    name: "LGT BANK (SINGAPORE) LTD",
-    account_number: "LGT-601125-188",
-    account_type: "position",
-    relationship_number: "LGT-601125-188",
-    currency: "SGD",
-  },
-];
+export interface IHoldings {
+  id: string;
+  custodian: string;
+  custodian_name: string;
+  account_number: string;
+  account_type: string;
+  relationship_number: string;
+  currency: string;
+}
 
 export default function HoldingsList() {
+  const client_id = "637fbb50-d59d-467d-b61d-f99aa897b960";
+  const url = `/bank_account/${buildURLSearchParams({ client_id })}`;
+
+  const { data, isLoading } = useTransactionServerQuery<IHoldings[]>(url);
+
+  if (isLoading) {
+    return <Spinner size="small" />;
+  }
+
   return (
     <FlatList
-      data={holdingsData}
-      renderItem={({ item }: { item: IHoldingsCard }) => (
+      data={data}
+      renderItem={({ item }: { item: IHoldings }) => (
         <HoldingsCard data={item} />
       )}
-      keyExtractor={(item: IHoldingsCard) => item.id}
+      keyExtractor={(item: IHoldings) => item.id}
     />
   );
 }

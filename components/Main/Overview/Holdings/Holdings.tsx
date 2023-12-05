@@ -5,15 +5,6 @@ import { Button, Text, VStack } from "@gluestack-ui/themed";
 
 import HoldingsList from "./common/HoldingsList";
 
-export interface IHoldingsCard {
-  id: number;
-  name: string;
-  account_number: string;
-  account_type: string;
-  relationship_number: string;
-  currency: string;
-}
-
 export default function Holdings() {
   const handleButtonPress = () => {
     router.push("/(modals)/AddHoldingsAccountModal");

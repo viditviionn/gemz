@@ -1,3 +1,7 @@
+export interface ICustodian {
+  id: string;
+  name: string;
+}
 export type TTabType =
   | "Overview"
   | "Family"

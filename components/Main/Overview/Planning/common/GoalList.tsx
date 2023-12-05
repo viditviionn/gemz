@@ -19,7 +19,7 @@ const ReturnExpectationsMap = {
   low: "Low",
 };
 
-type TAssetClassType = keyof typeof AssetClassMap;
+type TAssetClassType = keyof typeof AssetClassMap | undefined;
 
 export interface IGoals {
   id: string;
@@ -28,7 +28,7 @@ export interface IGoals {
   holding_period: string;
   investment_horizon: string;
   liquidity_needs: string;
-  return_expectations: keyof typeof ReturnExpectationsMap;
+  return_expectations: keyof typeof ReturnExpectationsMap | undefined;
 }
 
 export default function GoalList() {

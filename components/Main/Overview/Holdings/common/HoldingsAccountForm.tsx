@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   Button,
   ButtonText,
@@ -12,52 +13,133 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 
-const custodian = ["LGT", "DBS", "BOS", "JBS", "SCB"];
+import {
+  useTransactionServerMutation,
+  useTransactionServerPutMutation,
+} from "../../../../../hooks/useMutation";
+import { useTransactionServerQuery } from "../../../../../hooks/useQuery";
+import { type ICustodian } from "../../../../../interfaces/Main";
+import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
+import formatTriggerValues from "../../../../../lib/formatTriggerValues";
+import revalidate from "../../../../../lib/revalidate";
 
-interface FormData {
-  custodian: string;
-  accountNumber: string;
-  accountType: string;
-  relationshipNumber: string;
+interface IFormValue {
+  account_number: string;
+  account_type: string;
   currency: string;
+  relationship_number: string;
+  custodian: string;
 }
 
-export default function GoalForm() {
-  const [formData, setFormData] = useState<FormData>({
-    accountNumber: "",
-    custodian: "LGT",
-    accountType: "",
-    relationshipNumber: "",
+const URLs = {
+  get: "/bank_account/{id}/",
+  post: "/bank_account/",
+  put: "/bank_account/{id}/",
+};
+
+function useBankAccount({ handleClear }: { handleClear: () => void }) {
+  const { trigger, isMutating } = useTransactionServerMutation(URLs.post, {
+    onSuccess() {
+      revalidate("/bank_account/");
+      handleClear();
+      if (router.canGoBack()) {
+        router.back();
+      }
+    },
+    onError(err, key, config) {
+      console.log("Error", err, key, config);
+    },
+  });
+  return { trigger, isMutating };
+}
+
+function useGetBankAccount(id?: string) {
+  const { data, isLoading } = useTransactionServerQuery<IFormValue>(
+    id ? URLs.get.replace("{id}", id) : null
+  );
+  return { data, isLoading };
+}
+
+function usePutEstate({
+  holdingsId,
+  handleClear,
+}: {
+  holdingsId: string;
+  handleClear: () => void;
+}) {
+  const { trigger: update, isMutating: isUpdating } =
+    useTransactionServerPutMutation(URLs.put.replace("{id}", holdingsId), {
+      onSuccess() {
+        revalidate("/bank_account/");
+        handleClear();
+        if (router.canGoBack()) {
+          router.back();
+        }
+      },
+      onError(err, key, config) {
+        console.log("Error data upload", err, key, config);
+      },
+    });
+  return { update, isUpdating };
+}
+
+export default function HoldingsAccountForm() {
+  const { id } = useLocalSearchParams();
+  const holdingsId = Array.isArray(id) ? id[0] : id;
+  const [value, setValue] = useState<IFormValue>({
+    account_number: "",
+    account_type: "",
     currency: "",
+    relationship_number: "",
+    custodian: "",
   });
 
-  const handleInputChange = (field: keyof FormData, value: string) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    });
-  };
+  const { data: custodianData } = useTransactionServerQuery<ICustodian[]>(
+    `/custodian/${buildURLSearchParams({
+      client__id: "637fbb50-d59d-467d-b61d-f99aa897b960",
+    })}`
+  );
 
-  const handleSelectPress = (field: keyof FormData, option: string) => {
-    setFormData({
-      ...formData,
-      [field]: option,
-    });
+  const options = custodianData?.map(({ id, name }) => ({
+    name,
+    id,
+  }));
+
+  const handleChange = (field: string, option: string) => {
+    setValue({ ...value, [field]: option });
   };
 
   const handleSubmit = () => {
-    console.log("Form data submitted:", formData);
+    const client = "637fbb50-d59d-467d-b61d-f99aa897b960";
+    const payload = formatTriggerValues({ client, ...value });
+    if (id) {
+      update(payload);
+    } else {
+      trigger(payload);
+    }
   };
 
   const handleClear = () => {
-    setFormData({
-      accountNumber: "",
-      custodian: "LGT",
-      accountType: "",
-      relationshipNumber: "",
+    setValue({
+      account_number: "",
+      account_type: "",
       currency: "",
+      relationship_number: "",
+      custodian: "",
     });
   };
+
+  const { data } = useGetBankAccount(holdingsId);
+  const { trigger, isMutating } = useBankAccount({ handleClear });
+  const { update, isUpdating } = usePutEstate({ holdingsId, handleClear });
+
+  useEffect(() => {
+    if (data) {
+      setValue({
+        ...data,
+      });
+    }
+  }, [data]);
 
   return (
     <VStack style={styles.container}>
@@ -67,22 +149,21 @@ export default function GoalForm() {
             <FormControlLabelText size="sm">Custodians</FormControlLabelText>
           </FormControlLabel>
           <HStack space="md">
-            {custodian.map((name) => (
+            {options?.map(({ id, name }) => (
               <TouchableOpacity
                 style={[
                   styles.selectButton,
-                  name === formData.custodian && styles.activeSelectButton,
+                  id === value.custodian && styles.activeSelectButton,
                 ]}
-                key={name}
+                key={id}
                 onPress={() => {
-                  handleSelectPress("custodian", name);
+                  handleChange("custodian", id);
                 }}
               >
                 <Text
                   style={[
                     styles.selectButtonText,
-                    name === formData.custodian &&
-                      styles.activeSelectButtonText,
+                    id === value.custodian && styles.activeSelectButtonText,
                   ]}
                 >
                   {name}
@@ -101,9 +182,9 @@ export default function GoalForm() {
             <InputField
               placeholder="Account Number"
               type="text"
-              value={formData.accountNumber}
+              value={value.account_number}
               onChangeText={(value: string) => {
-                handleInputChange("accountNumber", value);
+                handleChange("account_number", value);
               }}
               returnKeyType="next"
             />
@@ -117,9 +198,9 @@ export default function GoalForm() {
             <InputField
               placeholder="Account type"
               type="text"
-              value={formData.accountType}
+              value={value.account_type}
               onChangeText={(value: string) => {
-                handleInputChange("accountType", value);
+                handleChange("account_type", value);
               }}
               returnKeyType="next"
             />
@@ -135,9 +216,9 @@ export default function GoalForm() {
             <InputField
               placeholder="Relationship number"
               type="text"
-              value={formData.relationshipNumber}
+              value={value.relationship_number}
               onChangeText={(value: string) => {
-                handleInputChange("relationshipNumber", value);
+                handleChange("relationship_number", value);
               }}
               returnKeyType="next"
             />
@@ -151,9 +232,9 @@ export default function GoalForm() {
             <InputField
               placeholder="Currency"
               type="text"
-              value={formData.currency}
+              value={value.currency}
               onChangeText={(value: string) => {
-                handleInputChange("currency", value);
+                handleChange("currency", value);
               }}
               returnKeyType="next"
             />
@@ -161,10 +242,14 @@ export default function GoalForm() {
         </FormControl>
       </VStack>
       <VStack space="md">
-        <Button onPress={handleSubmit}>
-          <ButtonText>Add Bank Account</ButtonText>
+        <Button onPress={handleSubmit} isDisabled={isMutating || isUpdating}>
+          <ButtonText>Submit</ButtonText>
         </Button>
-        <Button variant="outline" onPress={handleClear}>
+        <Button
+          variant="outline"
+          onPress={handleClear}
+          isDisabled={isMutating || isUpdating}
+        >
           <ButtonText>Clear</ButtonText>
         </Button>
       </VStack>
