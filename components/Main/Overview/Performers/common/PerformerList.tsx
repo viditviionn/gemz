@@ -1,73 +1,24 @@
 import React from "react";
 import { FlatList } from "@gluestack-ui/themed";
 
-import { type IPerformerCard } from "../Performers";
+import { type TGainerLoser } from "../../../../../interfaces/Main";
+import { type IPerformerResult } from "../Performers";
 
 import PerformerCard from "./PerformerCard";
 
 interface IPlanningListProps {
-  selectedTab: number;
+  selectedTab: TGainerLoser;
+  data: IPerformerResult[] | undefined
 }
-const gainerData: IPerformerCard[] = [
-  {
-    id: 1,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-  {
-    id: 2,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-  {
-    id: 3,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-];
 
-const loserData: IPerformerCard[] = [
-  {
-    id: 1,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-  {
-    id: 2,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-  {
-    id: 3,
-    name: "Meta Platforms Inc",
-    percentage: "99.4%",
-    total_pl: "107.27K",
-  },
-];
-export default function PlanningList({ selectedTab }: IPlanningListProps) {
-  if (selectedTab === 0) {
+export default function PerformerList({ selectedTab, data}: IPlanningListProps) {
     return (
       <FlatList
-        data={gainerData}
-        renderItem={({ item }: { item: IPerformerCard }) => (
-          <PerformerCard data={item} />
+        data={data}
+        renderItem={({ item }: { item: IPerformerResult }) => (
+          <PerformerCard data={item} selectedTab={selectedTab} key={item.security_description}/>
         )}
-        keyExtractor={(item: IPerformerCard) => item.id}
+        keyExtractor={(item: IPerformerResult) => item.profit_loss}
       />
     );
-  }
-  return (
-    <FlatList
-      data={loserData}
-      renderItem={({ item }: { item: IPerformerCard }) => (
-        <PerformerCard data={item} />
-      )}
-      keyExtractor={(item: IPerformerCard) => item.id}
-    />
-  );
 }

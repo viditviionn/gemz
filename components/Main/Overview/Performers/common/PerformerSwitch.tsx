@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import { type TGainerLoser } from "../../../../../interfaces/Main";
+
 interface IPerformerSwitchProps {
-  selectedTab: number;
-  setSelectedTab: (_selectedTab: number) => void;
+  selectedTab: TGainerLoser;
+  setSelectedTab: (_selectedTab: TGainerLoser) => void;
 }
 export default function SwitchButton({
   selectedTab,
@@ -14,16 +16,16 @@ export default function SwitchButton({
       <TouchableOpacity
         style={[
           styles.switchButton,
-          selectedTab === 0 && styles.selectedSwitchButton,
+          selectedTab === "gainer" && styles.selectedSwitchButton,
         ]}
         onPress={() => {
-          setSelectedTab(0);
+          setSelectedTab("gainer");
         }}
       >
         <Text
           style={[
             styles.switchButtonText,
-            selectedTab === 0 && styles.selectedSwitchButtonText,
+            selectedTab === "gainer" && styles.selectedSwitchButtonText,
           ]}
         >
           Gainers
@@ -32,16 +34,16 @@ export default function SwitchButton({
       <TouchableOpacity
         style={[
           styles.switchButton,
-          selectedTab === 1 && styles.selectedSwitchButton,
+          selectedTab === "loser" && styles.selectedSwitchButton,
         ]}
         onPress={() => {
-          setSelectedTab(1);
+          setSelectedTab("loser");
         }}
       >
         <Text
           style={[
             styles.switchButtonText,
-            selectedTab === 1 && styles.selectedSwitchButtonText,
+            selectedTab === "loser" && styles.selectedSwitchButtonText,
           ]}
         >
           Losers
