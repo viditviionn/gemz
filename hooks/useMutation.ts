@@ -91,3 +91,14 @@ export function useAnalyticsServerQuery<ExtraArgs, Data>(
     config,
   );
 }
+
+export function useRelativePerformanceServerQuery<ExtraArgs, Data>(
+  key: string,
+  config?: SWRMutationConfiguration<Data, Error, string, ExtraArgs>
+) {
+  return useMutation<ExtraArgs, Data>(
+    key,
+    postJsonFetcher(AnalyticsServerUrl),
+    config
+  );
+}

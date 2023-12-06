@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { TransactionServerUrl } from "../constants/strings";
+import { AnalyticsServerUrl, TransactionServerUrl } from "../constants/strings";
 import { AuthContext } from "../context/AuthProvider";
 import { getFetcher } from "../lib/fetcher";
 
@@ -22,9 +22,9 @@ function useQuery<Data>(
   key: TKey,
   fetcher: (
     _key: string,
-    _options?: { arg: Record<string, string> },
+    _options?: { arg: Record<string, string> }
   ) => Promise<Data>,
-  config?: SWRConfiguration<Data, Error>,
+  config?: SWRConfiguration<Data, Error>
 ) {
   const { authState } = useContext(AuthContext);
   const access_token = authState.accessToken;
@@ -36,7 +36,14 @@ function useQuery<Data>(
 
 export function useTransactionServerQuery<Data>(
   key: string | null,
-  config?: SWRConfiguration<Data, Error>,
+  config?: SWRConfiguration<Data, Error>
 ) {
   return useQuery<Data>(key, getFetcher(TransactionServerUrl), config);
+}
+
+export function useAnalyticsServerQuery<Data>(
+  key: string | null,
+  config?: SWRConfiguration<Data, Error>
+) {
+  return useQuery<Data>(key, getFetcher(AnalyticsServerUrl), config);
 }
