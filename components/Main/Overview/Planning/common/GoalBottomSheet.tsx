@@ -53,7 +53,6 @@ export default function GoalBottomSheet({
   handleGoalButtonPress,
 }: IGoalBottomSheetProps) {
   const handleBadgePress = (goal: string) => {
-    console.log("Goal: ", goal);
     handleModalClose();
     router.push(`/AddGoalModal${buildURLSearchParams({ goal })}`);
   };

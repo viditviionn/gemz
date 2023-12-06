@@ -107,7 +107,6 @@ function usePutEstate({
   goalId: string;
   handleClear: () => void;
 }) {
-  console.log("goalId", goalId);
   const { trigger: update, isMutating: isUpdating } =
     useTransactionServerPutMutation(URLs.put.replace("{id}", goalId), {
       onSuccess(data) {
@@ -163,7 +162,6 @@ export default function GoalForm() {
     const client = "637fbb50-d59d-467d-b61d-f99aa897b960";
     const payload = { client, ...value };
     if (id) {
-      console.log(payload);
       update(payload);
     } else {
       trigger(payload);

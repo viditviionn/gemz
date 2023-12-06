@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FlatList, Spinner } from "@gluestack-ui/themed";
 
+import { AuthContext } from "../../../../../context/AuthProvider";
 import { useTransactionServerQuery } from "../../../../../hooks/useQuery";
 import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
 
 import EstateCard from "./EstateCard";
-
 const BenificiaryMap = {
   nominee: "Nominee",
   beneficiary_person: "Beneficiary Person",
@@ -26,7 +26,8 @@ export interface IEstate {
 }
 
 export default function EstateList() {
-  const client_id = "637fbb50-d59d-467d-b61d-f99aa897b960";
+  const { getClientId } = useContext(AuthContext);
+  const client_id = getClientId();
   const url = `/estate/${buildURLSearchParams({ client_id })}`;
   const { data, isLoading } = useTransactionServerQuery<IEstate[]>(url);
 

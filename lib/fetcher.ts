@@ -9,7 +9,6 @@ interface IFetcherParams {
 async function fetcher({ url, init, error }: IFetcherParams) {
   try {
     const accessToken = await SecureStore.getItemAsync("accessToken");
-    console.log("accessToken", accessToken)
     const res = await fetch(url, {
       ...init,
       headers: {

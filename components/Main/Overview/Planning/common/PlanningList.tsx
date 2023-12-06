@@ -57,14 +57,11 @@ export interface TEstate {
 }
 
 export default function PlanningList({ selectedTab }: IPlanningListProps) {
-  // const client_id = "637fbb50-d59d-467d-b61d-f99aa897b960";
   const { getClientId } = useContext(AuthContext);
   const client_id = getClientId();
-  console.log("Client ID", client_id);
   if (selectedTab === 0) {
     const url = `/goals/${buildURLSearchParams({ client_id })}`;
     const { data, isLoading } = useTransactionServerQuery<TGoalsType[]>(url);
-    console.log("Goal Data", data);
     if (isLoading) {
       return <Spinner size="small" />;
     }

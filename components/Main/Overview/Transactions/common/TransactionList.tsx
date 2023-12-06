@@ -110,7 +110,6 @@ export default function TransactionList({
 }: {
   transactions?: RelatedTrade[];
 }) {
-  console.log(transactions);
   return (
     <FlatList
       data={transactions}

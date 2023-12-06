@@ -15,12 +15,12 @@ import { useTransactionServerDeleteMutation } from "../../../../../hooks/useMuta
 import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
 import revalidate from "../../../../../lib/revalidate";
 
-import { type IGoals } from "./GoalList";
+import { type TGoalsType } from "./PlanningList";
 
 import { Edit, Trash } from "lucide-react-native";
 
 interface IGoalCardProps {
-  data: IGoals;
+  data: TGoalsType;
 }
 
 const URLs = {
@@ -38,7 +38,7 @@ function useGoalDelete(id: string) {
       onError(error, key, config) {
         console.log("Error deleting goal", error, key, config);
       },
-    },
+    }
   );
   return { trigger };
 }
@@ -98,7 +98,7 @@ export default function GoalCard({ data }: IGoalCardProps) {
       <VStack space="sm" style={styles.assetClassContainer}>
         <Text style={styles.label}>Asset Class</Text>
         <HStack space="md">
-          {asset_class_preference.map((assetClass) => {
+          {asset_class_preference?.map((assetClass) => {
             return (
               <Badge key={assetClass}>
                 <BadgeText style={styles.value}>{assetClass}</BadgeText>
