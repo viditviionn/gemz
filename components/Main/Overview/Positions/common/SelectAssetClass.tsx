@@ -15,31 +15,39 @@ import {
 } from "@gluestack-ui/themed";
 
 import { AuthContext } from "../../../../../context/AuthProvider";
-import { useTransactionServerQuery } from "../../../../../hooks/useQuery";
+import { useAnalyticsServerGetQuery } from "../../../../../hooks/useQuery";
 import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
 
 import { ChevronDownIcon, X } from "lucide-react-native";
 
-export interface ICustodian {
-  id: string;
-  name: string;
-}
+type TAsset = string[];
 
-function useCustodian() {
+const URLS = {
+  get: `/relative-performance/asset-class`,
+};
+
+function useAssetClass() {
   const { getClientId } = useContext(AuthContext);
   const client__id = getClientId();
-  const { data, isLoading } = useTransactionServerQuery<ICustodian[]>(
-    `/custodian/${buildURLSearchParams({ client__id })}`
+  const { data } = useAnalyticsServerGetQuery<TAsset>(
+    `${URLS.get}/${buildURLSearchParams({ client__id })}`
   );
-  return { data, isLoading };
+
+  const selectOptions =
+    data?.map((item: string) => ({
+      label: item,
+      value: item,
+    })) ?? [];
+
+  return { selectOptions };
 }
 
-export default function SelectCustodian() {
-  const { data, isLoading } = useCustodian();
+export default function SelectAssetClass() {
+  const { selectOptions } = useAssetClass();
   const [selectedOption, setSelectedOption] = useState("");
+
   return (
     <Select
-      isDisabled={isLoading}
       onValueChange={(value: string) => {
         setSelectedOption(value);
       }}
@@ -47,7 +55,7 @@ export default function SelectCustodian() {
       selectedLabel={selectedOption}
     >
       <SelectTrigger variant="outline" size="md">
-        <SelectInput placeholder="Select custodian" />
+        <SelectInput placeholder="Select asset class" />
         <SelectIcon mr="$3">
           {selectedOption !== "" ? (
             <TouchableOpacity
@@ -68,11 +76,13 @@ export default function SelectCustodian() {
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator />
           </SelectDragIndicatorWrapper>
-          {data?.map((item) => {
-            return (
-              <SelectItem label={item.name} value={item.id} key={item.id} />
-            );
-          })}
+          {selectOptions.map((item) => (
+            <SelectItem
+              label={item.label}
+              value={item.value}
+              key={item.value}
+            />
+          ))}
         </SelectContent>
       </SelectPortal>
     </Select>

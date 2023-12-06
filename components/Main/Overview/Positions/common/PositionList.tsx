@@ -1,70 +1,22 @@
 import React from "react";
 import { FlatList } from "@gluestack-ui/themed";
 
-import { type IPositionsCard } from "../Positions";
+import { type IPositionsData } from "../Positions";
 
 import PositionCard from "./PositionCard";
 
-const positionsData: IPositionsCard[] = [
-  {
-    id: 1,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 1,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 2,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 3,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 4,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 5,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-  {
-    id: 6,
-    security_name: "Starbucks corps",
-    ticker: "SBUX",
-    percentage: "28.4%",
-    market_value: "$15,248.9",
-  },
-];
+interface PositionListProps {
+  data: IPositionsData[] | undefined;
+}
 
-export default function PositionList() {
+export default function PositionList({ data }: PositionListProps) {
   return (
     <FlatList
-      data={positionsData}
-      renderItem={({ item }: { item: IPositionsCard }) => (
+      data={data}
+      renderItem={({ item }: { item: IPositionsData }) => (
         <PositionCard data={item} />
       )}
-      keyExtractor={(item: IPositionsCard) => item.id}
+      keyExtractor={(item: IPositionsData) => item.id}
     />
   );
 }

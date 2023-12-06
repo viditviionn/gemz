@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FlatList, Spinner } from "@gluestack-ui/themed";
 
+import { AuthContext } from "../../../../../context/AuthProvider";
 import { useTransactionServerQuery } from "../../../../../hooks/useQuery";
 import buildURLSearchParams from "../../../../../lib/buildURLSearchParams";
 
@@ -17,7 +18,8 @@ export interface IHoldings {
 }
 
 export default function HoldingsList() {
-  const client_id = "637fbb50-d59d-467d-b61d-f99aa897b960";
+  const { getClientId } = useContext(AuthContext);
+  const client_id = getClientId();
   const url = `/bank_account/${buildURLSearchParams({ client_id })}`;
 
   const { data, isLoading } = useTransactionServerQuery<IHoldings[]>(url);

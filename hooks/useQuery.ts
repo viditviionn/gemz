@@ -41,7 +41,7 @@ export function useTransactionServerQuery<Data>(
   return useQuery<Data>(key, getFetcher(TransactionServerUrl), config);
 }
 
-export function useAnalyticsServerQuery<Data>(
+export function useAnalyticsServerGetQuery<Data>(
   key: string | null,
   config?: SWRConfiguration<Data, Error>
 ) {

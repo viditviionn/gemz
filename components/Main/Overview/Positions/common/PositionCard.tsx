@@ -3,33 +3,36 @@ import { StyleSheet } from "react-native";
 import { HStack, Text, VStack } from "@gluestack-ui/themed";
 
 import Colors from "../../../../../constants/Colors";
-import { type IPositionsCard } from "../Positions";
+import { type IPositionsData } from "../Positions";
 
 interface IPositionCardProps {
-  data: IPositionsCard;
+  data: IPositionsData;
 }
 
 export default function PositionCard({ data }: IPositionCardProps) {
-  const { security_name, ticker, percentage, market_value } = data;
+  const { currency_reporting, security_name, isin, market_value_reporting } =
+    data;
   return (
     <VStack style={styles.card}>
       <HStack>
         <VStack style={styles.item} justifyConent="space-between">
-          <Text size="xs" color={Colors.dark}>
-            {security_name}
-          </Text>
           <Text size="lg" color={Colors.dark}>
-            {ticker}
+            {isin}
           </Text>
         </VStack>
         <VStack style={styles.item}>
           <Text size="xs" textAlign="right" color={Colors.green}>
-            {percentage}
+            {currency_reporting}
           </Text>
           <Text size="lg" textAlign="right" color={Colors.primary}>
-            {market_value}
+            {market_value_reporting}
           </Text>
         </VStack>
+      </HStack>
+      <HStack>
+        <Text size="lg" color={Colors.dark}>
+          {security_name}
+        </Text>
       </HStack>
     </VStack>
   );

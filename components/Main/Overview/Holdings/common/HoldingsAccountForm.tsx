@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import {
@@ -13,6 +13,7 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 
+import { AuthContext } from "../../../../../context/AuthProvider";
 import {
   useTransactionServerMutation,
   useTransactionServerPutMutation,
@@ -84,6 +85,8 @@ function usePutEstate({
 }
 
 export default function HoldingsAccountForm() {
+  const { getClientId } = useContext(AuthContext);
+  const client_id = getClientId();
   const { id } = useLocalSearchParams();
   const holdingsId = Array.isArray(id) ? id[0] : id;
   const [value, setValue] = useState<IFormValue>({
@@ -96,7 +99,7 @@ export default function HoldingsAccountForm() {
 
   const { data: custodianData } = useTransactionServerQuery<ICustodian[]>(
     `/custodian/${buildURLSearchParams({
-      client__id: "637fbb50-d59d-467d-b61d-f99aa897b960",
+      client__id: client_id,
     })}`
   );
 
@@ -110,7 +113,7 @@ export default function HoldingsAccountForm() {
   };
 
   const handleSubmit = () => {
-    const client = "637fbb50-d59d-467d-b61d-f99aa897b960";
+    const client = client_id;
     const payload = formatTriggerValues({ client, ...value });
     if (id) {
       update(payload);

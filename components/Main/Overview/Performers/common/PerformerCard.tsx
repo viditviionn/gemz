@@ -4,6 +4,7 @@ import { Divider, HStack, Text, VStack } from "@gluestack-ui/themed";
 
 import Colors from "../../../../../constants/Colors";
 import { type TGainerLoser } from "../../../../../interfaces/Main";
+import { formatCompactNumber } from "../../../../../lib/format";
 import { type IPerformerResult } from "../Performers";
 
 interface IPerformerCardProps {
@@ -13,7 +14,6 @@ interface IPerformerCardProps {
 
 export default function PerformerCard({
   data,
-  selectedTab,
 }: IPerformerCardProps) {
   const { percentage_profit_loss, security_description, profit_loss } = data;
   return (
@@ -26,16 +26,13 @@ export default function PerformerCard({
         <HStack>
           <VStack style={styles.item}>
             <Text style={styles.label}>Percentage change</Text>
-            <Text style={styles.value}>{percentage_profit_loss}</Text>
+            <Text style={styles.value}>
+              {formatCompactNumber(percentage_profit_loss)}%
+            </Text>
           </VStack>
           <VStack style={styles.item}>
             <Text style={styles.label}>Total PL</Text>
-            <Text
-              style={styles.value}
-              color={selectedTab === "gainer" ? Colors.dark : "#EB5B3C"}
-            >
-              {profit_loss}
-            </Text>
+            <Text style={styles.value}>{formatCompactNumber(profit_loss)}</Text>
           </VStack>
         </HStack>
       </VStack>
@@ -60,6 +57,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   headerText: {
+    color: Colors.dark,
     fontSize: 16,
     fontWeight: "500",
   },
@@ -70,10 +68,12 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   label: {
+    color: Colors.dark,
     fontSize: 14,
     fontWeight: "500",
   },
   value: {
+    color: Colors.dark,
     fontSize: 12,
   },
 });
