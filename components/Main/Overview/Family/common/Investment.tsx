@@ -17,7 +17,10 @@ export default function FamilyInvestment({
   totalGainer,
 }: investmentType) {
   const pieColors = Colors.investmentChart;
-
+  const total = chartData?.data?.reduce(
+    (acc: number, cur: any) => acc + cur.value,
+    0,
+  );
   return (
     <View style={styles.card} mt="$7">
       <VStack space="lg">
@@ -27,9 +30,7 @@ export default function FamilyInvestment({
         <HStack space="4xl" justifyContent="space-between">
           <VStack style={styles.legendWrapper}>
             <Text color={Colors.dark}>Total Networth</Text>
-            <Text color={Colors.dark}>
-              SGD {convertNumUnit(chartData?.total)}
-            </Text>
+            <Text color={Colors.dark}>SGD {convertNumUnit(total)}</Text>
           </VStack>
           <VStack style={styles.chartWrapper}>
             <Text color={Colors.dark}>Total Gains</Text>
@@ -55,7 +56,7 @@ export default function FamilyInvestment({
               <VictoryPie
                 data={chartData?.data?.map((pie: any) => ({
                   x: pie.type,
-                  y: (pie.value / chartData?.total) * 100,
+                  y: (pie.value / total) * 100,
                 }))}
                 colorScale={pieColors}
                 innerRadius={45}
@@ -63,7 +64,7 @@ export default function FamilyInvestment({
                 style={{ labels: { display: "none" } }}
               />
               <Text color={Colors.dark} style={styles.chartLabel}>
-                SGD$ {convertNumUnit(chartData?.total)}
+                {convertNumUnit(total)}
               </Text>
             </VStack>
           </VStack>

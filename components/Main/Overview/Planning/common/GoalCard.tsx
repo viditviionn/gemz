@@ -38,7 +38,7 @@ function useGoalDelete(id: string) {
       onError(error, key, config) {
         console.log("Error deleting goal", error, key, config);
       },
-    }
+    },
   );
   return { trigger };
 }

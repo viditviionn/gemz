@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions,StyleSheet  } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { Box, Text } from "@gluestack-ui/themed";
 
 import {
@@ -20,7 +20,7 @@ export const AssetsPieChart = ({ data, total }: any) => {
     text: item.type,
   }));
   const xForChart = windowWidth / 2 + windowWidth * 0.1 - 36;
-  
+
   return (
     <Box style={styles.container}>
       <VictoryChart height={400}>

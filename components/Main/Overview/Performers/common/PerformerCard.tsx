@@ -12,9 +12,7 @@ interface IPerformerCardProps {
   data: IPerformerResult;
 }
 
-export default function PerformerCard({
-  data,
-}: IPerformerCardProps) {
+export default function PerformerCard({ data }: IPerformerCardProps) {
   const { percentage_profit_loss, security_description, profit_loss } = data;
   return (
     <VStack style={styles.card}>

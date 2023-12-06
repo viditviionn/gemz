@@ -1,5 +1,5 @@
 import React from "react";
-import { Box,Text } from "@gluestack-ui/themed";
+import { Box, Text } from "@gluestack-ui/themed";
 
 import { boxElevation } from "./utils";
 

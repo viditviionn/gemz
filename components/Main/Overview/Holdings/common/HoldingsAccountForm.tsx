@@ -56,7 +56,7 @@ function useBankAccount({ handleClear }: { handleClear: () => void }) {
 
 function useGetBankAccount(id?: string) {
   const { data, isLoading } = useTransactionServerQuery<IFormValue>(
-    id ? URLs.get.replace("{id}", id) : null
+    id ? URLs.get.replace("{id}", id) : null,
   );
   return { data, isLoading };
 }
@@ -100,7 +100,7 @@ export default function HoldingsAccountForm() {
   const { data: custodianData } = useTransactionServerQuery<ICustodian[]>(
     `/custodian/${buildURLSearchParams({
       client__id: client_id,
-    })}`
+    })}`,
   );
 
   const options = custodianData?.map(({ id, name }) => ({

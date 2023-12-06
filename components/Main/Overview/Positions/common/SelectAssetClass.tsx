@@ -30,7 +30,7 @@ function useAssetClass() {
   const { getClientId } = useContext(AuthContext);
   const client__id = getClientId();
   const { data } = useAnalyticsServerGetQuery<TAsset>(
-    `${URLS.get}/${buildURLSearchParams({ client__id })}`
+    `${URLS.get}/${buildURLSearchParams({ client__id })}`,
   );
 
   const selectOptions =

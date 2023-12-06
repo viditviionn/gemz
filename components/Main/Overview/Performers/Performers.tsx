@@ -54,7 +54,7 @@ function useGainerLoser({ type }: IGainerLoserProps) {
       client: client_id,
       start_date: startDate,
       end_date: endDate,
-    })}`
+    })}`,
   );
 
   return {

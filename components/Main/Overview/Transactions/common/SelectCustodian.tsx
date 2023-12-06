@@ -29,7 +29,7 @@ function useCustodian() {
   const { getClientId } = useContext(AuthContext);
   const client__id = getClientId();
   const { data, isLoading } = useTransactionServerQuery<ICustodian[]>(
-    `/custodian/${buildURLSearchParams({ client__id })}`
+    `/custodian/${buildURLSearchParams({ client__id })}`,
   );
   return { data, isLoading };
 }

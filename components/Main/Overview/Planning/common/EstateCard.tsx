@@ -42,8 +42,16 @@ function useEstateDelete(id: string) {
 }
 
 export default function EstateCard({ data }: IEstateCardProps) {
-  const { id, name, relationship, email, date_of_birth, phone, percent_share, type } =
-    data;
+  const {
+    id,
+    name,
+    relationship,
+    email,
+    date_of_birth,
+    phone,
+    percent_share,
+    type,
+  } = data;
   const { trigger: deleteEstate } = useEstateDelete(id);
   const handleEdit = (id: string) => {
     router.push(`/AddEstateModal${buildURLSearchParams({ id })}`);

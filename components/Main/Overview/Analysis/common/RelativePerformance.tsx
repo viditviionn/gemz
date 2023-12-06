@@ -61,13 +61,13 @@ const RelativePerformance = () => {
   >(
     `/relative-performance/asset-class/${buildURLSearchParams({
       client_id,
-    })}`
+    })}`,
   );
 
   const { data: tickerList = [] } = useAnalyticsServerQuery<string[]>(
     `/security/search/${buildURLSearchParams({
       client_id,
-    })}`
+    })}`,
   );
 
   const isAssetsSelected = selectedIndex === 0;
@@ -84,12 +84,12 @@ const RelativePerformance = () => {
 
   const { trigger: fetchNetworth, data: networth = [] } =
     useRelativePerformanceServerQuery<unknown, IGrowth>(
-      apiEndPoints.relativePerformanceNetworth
+      apiEndPoints.relativePerformanceNetworth,
     );
 
   const { trigger: fetchStocks, data: stocks = [] } =
     useRelativePerformanceServerQuery<unknown, IStocks>(
-      apiEndPoints.relativePerformanceStocks
+      apiEndPoints.relativePerformanceStocks,
     );
 
   if (isLoading) {

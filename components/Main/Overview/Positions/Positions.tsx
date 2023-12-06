@@ -59,7 +59,7 @@ export default function Positions() {
 
   const { data: netWorthData } =
     useTransactionServerQuery<IPositionSearchResponse>(
-      `/statement/position/networth_cards/`
+      `/statement/position/networth_cards/`,
     );
 
   const networth = netWorthData?.client_cards[0]?.networth ?? 0;
@@ -68,11 +68,11 @@ export default function Positions() {
     `/position/history/position_aggregation/${buildURLSearchParams({
       client: client_id,
       statement_date: endDate,
-    })}`
+    })}`,
   );
 
   const filteredData = data?.results?.filter((item: IPositionsData) =>
-    item.security_name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.security_name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   if (isLoading) {

@@ -129,7 +129,7 @@ const AuthProvider = ({ children }: any) => {
     // Subscribe to app state changes
     const appStateSubscription = AppState.addEventListener(
       "change",
-      handleAppStateChange
+      handleAppStateChange,
     );
 
     // Cleanup: Remove the subscription when the component is unmounted
@@ -168,8 +168,8 @@ const AuthProvider = ({ children }: any) => {
           refresh,
           Math.max(
             getTimeoutFromToken(authState.accessToken) - REFRESH_OFFSET,
-            0
-          )
+            0,
+          ),
         );
 
         // Cleanup: Clear the timeout when the component is unmounted or when the access token is refreshed

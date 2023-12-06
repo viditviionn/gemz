@@ -39,7 +39,7 @@ export default function VerifyOTP() {
                   phone_number: data.phone_number,
                   user_id: data.user_id.toString(),
                   next_path: "/ResetPassword",
-                })}` as any
+                })}` as any,
               );
               break;
             }
@@ -53,7 +53,7 @@ export default function VerifyOTP() {
                 authContext.saveTokenToSecureStore("accessToken", access_token);
                 authContext.saveTokenToSecureStore(
                   "refreshToken",
-                  refresh_token
+                  refresh_token,
                 );
               })();
               router.push(next_path as any);
@@ -65,7 +65,7 @@ export default function VerifyOTP() {
       onError() {
         // ToastAndroid.show("OTP Send", ToastAndroid.SHORT);
       },
-    }
+    },
   );
   const resendOTPEnabled = seconds === 0;
   const inputRefs = Array(6)

@@ -31,7 +31,7 @@ function useHoldingsDelete(id: string) {
       onError(error, key, config) {
         console.log("Error deleting account", error, key, config);
       },
-    }
+    },
   );
   return { trigger };
 }
@@ -63,7 +63,7 @@ export default function HoldingsCard({ data }: IHoldingsProps) {
             deleteAccount();
           },
         },
-      ]
+      ],
     );
   };
   return (

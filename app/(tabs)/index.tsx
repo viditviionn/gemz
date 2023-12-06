@@ -68,7 +68,8 @@ export default function index() {
 
   const initializeAuthState = async () => {
     // Retrieve the access token from SecureStore
-    const accessToken = await authContext.getTokenFromSecureStore("accessToken");
+    const accessToken =
+      await authContext.getTokenFromSecureStore("accessToken");
     if (data) {
       await authContext.saveTokenToSecureStore("clientId", data[0].id);
     }
