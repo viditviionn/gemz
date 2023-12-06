@@ -28,6 +28,7 @@ const AuthProvider = ({ children }: any) => {
     accessToken: null,
     refreshToken: null,
     authenticated: false,
+    client_id: null,
   });
 
   // Function to save a token to SecureStore
@@ -101,6 +102,7 @@ const AuthProvider = ({ children }: any) => {
       accessToken: null,
       refreshToken: null,
       authenticated: false,
+      client_id: null,
     });
     // Clear tokens from SecureStore upon logout
     saveTokenToSecureStore("accessToken", "");
@@ -127,7 +129,7 @@ const AuthProvider = ({ children }: any) => {
     // Subscribe to app state changes
     const appStateSubscription = AppState.addEventListener(
       "change",
-      handleAppStateChange,
+      handleAppStateChange
     );
 
     // Cleanup: Remove the subscription when the component is unmounted
@@ -166,8 +168,8 @@ const AuthProvider = ({ children }: any) => {
           refresh,
           Math.max(
             getTimeoutFromToken(authState.accessToken) - REFRESH_OFFSET,
-            0,
-          ),
+            0
+          )
         );
 
         // Cleanup: Clear the timeout when the component is unmounted or when the access token is refreshed
@@ -220,6 +222,7 @@ const AuthProvider = ({ children }: any) => {
       value={{
         authState,
         getAccessToken: () => authState.accessToken,
+        getClientId: () => authState.client_id,
         setAuthState,
         logout,
         saveTokenToSecureStore,

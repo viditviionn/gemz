@@ -1,3 +1,5 @@
+import * as SecureStore from "expo-secure-store";
+
 interface IFetcherParams {
   url: string;
   init: RequestInit;
@@ -6,11 +8,13 @@ interface IFetcherParams {
 
 async function fetcher({ url, init, error }: IFetcherParams) {
   try {
+    const accessToken = await SecureStore.getItemAsync("accessToken");
+    console.log("accessToken", accessToken)
     const res = await fetch(url, {
       ...init,
       headers: {
         "Accept-Encoding": "gzip",
-        Authorization: "Token 7678d7d5e97d64fb183c4c7fef7bbddfcaacccf1",
+        Authorization: accessToken ? `Bearer ${accessToken}` : "",
         ...init.headers,
       },
     });
