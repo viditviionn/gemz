@@ -16,3 +16,12 @@ export function formatCompactNumber(num?: number | string) {
     .replace("M", " M")
     .replace("B", " B");
 }
+
+export function formatPercentage(num?: number) {
+  if (Number.isNaN(Number(num))) return "";
+
+  // Convert num to a string with two decimal places
+  const formattedNumString = typeof num === "number" ? num.toFixed(2) : "";
+
+  return formattedNumString;
+}

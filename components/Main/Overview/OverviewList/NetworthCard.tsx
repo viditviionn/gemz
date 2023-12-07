@@ -1,37 +1,57 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Heading, HStack, Text, View, VStack } from "@gluestack-ui/themed";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Link } from "expo-router";
+import { Heading, HStack, Text, VStack } from "@gluestack-ui/themed";
 
 import Colors from "../../../../constants/Colors";
+import { useTransactionServerQuery } from "../../../../hooks/useQuery";
+import { formatCompactNumber } from "../../../../lib/format";
+import { type IPositionSearchResponse } from "../Positions/Positions";
 
 export default function NetWorthCard() {
+  const { data: netWorthData } =
+    useTransactionServerQuery<IPositionSearchResponse>(
+      `/statement/position/networth_cards/`
+    );
+
   return (
-    <View style={styles.card}>
-      <VStack space="lg">
-        <Heading
-          size="lg"
-          fontWeight="semibold"
-          color={Colors.dark}
-          textAlign="center"
-        >
-          Krish&apos;s family investment
-        </Heading>
-        <HStack space="4xl" justifyContent="center">
-          <VStack>
-            <Text color={Colors.dark}>Networth</Text>
-            <Text>25.36M</Text>
-          </VStack>
-          <VStack>
-            <Text color={Colors.dark}>Assets</Text>
-            <Text>27.45M</Text>
-          </VStack>
-          <VStack>
-            <Text color={Colors.dark}>Liabilites</Text>
-            <Text>-450M</Text>
-          </VStack>
-        </HStack>
-      </VStack>
-    </View>
+    <Link href={"/insights/investment"} asChild>
+      <TouchableOpacity style={styles.card}>
+        <VStack space="lg">
+          <Heading
+            size="lg"
+            fontWeight="semibold"
+            color={Colors.dark}
+            textAlign="center"
+          >
+            {netWorthData?.client_cards[0]?.client_name}&apos;S family
+            investment
+          </Heading>
+          <HStack justifyContent="space-between">
+            <VStack>
+              <Text color={Colors.dark}>Networth</Text>
+              <Text>
+                {formatCompactNumber(netWorthData?.client_cards[0]?.networth)}
+              </Text>
+            </VStack>
+            <VStack>
+              <Text color={Colors.dark}>Assets</Text>
+              <Text>
+                {formatCompactNumber(netWorthData?.client_cards[0]?.assets)}
+              </Text>
+            </VStack>
+            <VStack>
+              <Text color={Colors.dark}>Liabilites</Text>
+              <Text>
+                {formatCompactNumber(
+                  netWorthData?.client_cards[0]?.liabilities
+                )}
+              </Text>
+            </VStack>
+          </HStack>
+        </VStack>
+      </TouchableOpacity>
+    </Link>
   );
 }
 const styles = StyleSheet.create({

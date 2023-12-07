@@ -15,4 +15,5 @@ export type TInsights =
   | "positions"
   | "performers"
   | "holdings"
-  | "transactions";
+  | "transactions"
+  | "investment";

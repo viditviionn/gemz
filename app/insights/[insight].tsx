@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { ScrollView, View, VStack } from "@gluestack-ui/themed";
 
 import Holdings from "../../components/Main/Overview/Holdings/Holdings";
+import Investment from "../../components/Main/Overview/Investments/Investment";
 import Performers from "../../components/Main/Overview/Performers/Performers";
 import Positions from "../../components/Main/Overview/Positions/Positions";
 import Transactions from "../../components/Main/Overview/Transactions/Transactions";
@@ -10,6 +11,8 @@ import { type TInsights } from "../../interfaces/Main";
 
 function List(type: TInsights): React.ReactNode {
   switch (type) {
+    case "investment":
+      return <Investment />;
     case "positions":
       return <Positions />;
     case "holdings":
