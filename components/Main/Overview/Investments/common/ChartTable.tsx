@@ -34,10 +34,10 @@ export default function ChartTable({
         <Text style={styles.cellHeader} size="sm">
           Asset Class
         </Text>
-        <Text style={styles.cellHeader} size="sm">
+        <Text style={styles.cellHeader} size="sm" textAlign="right">
           Total Value
         </Text>
-        <Text style={styles.cellHeader} size="sm">
+        <Text style={styles.cellHeader} size="sm" textAlign="right">
           in %
         </Text>
       </View>
@@ -49,21 +49,24 @@ export default function ChartTable({
               {
                 backgroundColor:
                   progressType === "success" ? "#D9F7BE" : "#FFCCC7",
-                width: `${Math.round(rowData.percentage)}%`,
+                width: `${
+                  rowData.percentage && rowData.percentage >= 0
+                    ? formatPercentage(rowData.percentage)
+                    : 0
+                }%`,
               },
             ]}
-          >
-            <View style={styles.cell}>
-              <Text size="xs">{rowData.asset_class}</Text>
-            </View>
+          ></View>
+          <View style={styles.cell}>
+            <Text size="xs">{rowData.asset_class}</Text>
+          </View>
 
-            <View style={styles.cell}>
-              <Text size="xs">{formatCompactNumber(rowData.total_value)}</Text>
-            </View>
+          <View style={styles.cell}>
+            <Text size="xs">{formatCompactNumber(rowData.total_value)}</Text>
+          </View>
 
-            <View style={styles.cell}>
-              <Text size="xs">{formatPercentage(rowData.percentage)}</Text>
-            </View>
+          <View style={styles.cell}>
+            <Text size="xs">{formatPercentage(rowData.percentage)}</Text>
           </View>
         </View>
       ))}
@@ -71,10 +74,20 @@ export default function ChartTable({
         <Text style={styles.cellHeader} size="sm">
           {TotalText}
         </Text>
-        <Text style={styles.cellHeader} size="sm">
+        <Text
+          style={styles.cellHeader}
+          textAlign="right"
+          size="sm"
+          color={progressType === "success" ? "#389E0D" : "#CF1322"}
+        >
           {formatCompactNumber(total)}
         </Text>
-        <Text style={styles.cellHeader} size="sm">
+        <Text
+          style={styles.cellHeader}
+          textAlign="right"
+          size="sm"
+          color={progressType === "success" ? "#389E0D" : "#CF1322"}
+        >
           {formatPercentage(percentage)}%
         </Text>
       </View>
@@ -84,27 +97,28 @@ export default function ChartTable({
 
 const styles = StyleSheet.create({
   bgRow: {
-    backgroundColor: "#D9F7BE",
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    zIndex: 0,
   },
   cell: {
-    paddingHorizontal: 4,
     paddingVertical: 8,
     textAlign: "left",
   },
   cellHeader: {
     flex: 1,
-    textAlign: "left",
   },
   row: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
+    marginVertical: 2,
+    paddingHorizontal: 10,
     paddingVertical: 8,
     position: "relative",
-    zIndex: 10,
+    zIndex: 999,
   },
 });
