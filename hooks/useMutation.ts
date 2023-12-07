@@ -1,6 +1,5 @@
 import {
   AnalyticsServerUrl,
-  AuthServerUrl,
   TransactionServerUrl,
 } from "../constants/strings";
 import {
@@ -32,7 +31,18 @@ export function useAuthServerMutation<ExtraArgs, Data>(
 ) {
   return useMutation<ExtraArgs, Data>(
     key,
-    postJsonFetcher(AuthServerUrl),
+    postJsonFetcher(TransactionServerUrl),
+    config,
+  );
+}
+
+export function useGetAuthServerMutation<ExtraArgs, Data>(
+  key: string,
+  config?: SWRMutationConfiguration<Data, Error, string, ExtraArgs>,
+) {
+  return useMutation<ExtraArgs, Data>(
+    key,
+    getFetcher(TransactionServerUrl),
     config,
   );
 }

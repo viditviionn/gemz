@@ -13,7 +13,7 @@ import {
 } from "@gluestack-ui/themed";
 
 import Listings from "../../components/Main/Overview/Listings";
-import Colors from "../../constants/Colors";
+import Colors, { BACKGROUND_COLOR } from "../../constants/Colors";
 import { AuthContext } from "../../context/AuthProvider";
 import { useTransactionServerQuery } from "../../hooks/useQuery";
 
@@ -85,10 +85,14 @@ export default function index() {
   }, []);
 
   return (
-    <View bg="#fff0f0" height="100%">
+    <View bg={BACKGROUND_COLOR} height="100%">
       <ScrollView>
         <VStack space="2xl" mt="$10" py="$5" px="$3">
-          <HStack>
+          <HStack
+            flexDirection="row"
+            justifyContent="space-between"
+            px="$5"
+          >
             <TouchableOpacity
               onPress={() => {
                 router.push("/profile/Profile");
@@ -104,7 +108,7 @@ export default function index() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <VStack space="none">
+            <VStack>
               <Heading fontWeight="light">Welcome,</Heading>
               <Heading fontWeight="light">Krish Parekh</Heading>
             </VStack>

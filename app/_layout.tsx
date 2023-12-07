@@ -104,6 +104,12 @@ function RootLayoutNav() {
               name="insights/[insight]"
               options={{ headerTitle: "", headerTransparent: true }}
             />
+            <Stack.Screen
+              name="profile/Detail"
+              options={({ route }) => ({
+                headerTitle: route.params?.title || "Default Title",
+              })}
+            />
           </Stack>
         </AuthProvider>
       </ThemeProvider>

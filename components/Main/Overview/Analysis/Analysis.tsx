@@ -1,14 +1,11 @@
 import React, { useState } from "react";
+import AnalysisView from "./common/AnalysisView";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-
 import Colors from "../../../../constants/Colors";
-
 import RelativePerformance from "./common/RelativePerformance";
-
-const AnalysisType = ["Gross Allocations", "Relative Performance"];
-
 export default function Analysis() {
   const [selectedTab, setSelectedTab] = useState(0);
+  const AnalysisType = ["Gross Allocations", "Relative Performance"];
   const isRelativePerformance = selectedTab === 1;
   return (
     <>
@@ -44,7 +41,11 @@ export default function Analysis() {
           );
         })}
       </View>
-      {isRelativePerformance ? <RelativePerformance /> : null}
+      {!isRelativePerformance ? (
+        <AnalysisView selectedTab={selectedTab} />
+      ) : (
+        <RelativePerformance />
+      )}
     </>
   );
 }
