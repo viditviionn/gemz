@@ -1,11 +1,13 @@
-import { View } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
+import { useNavigation } from "expo-router";
+import { View } from "@gluestack-ui/themed";
+
 import {
   useAuthServerMutation,
   useGetAuthServerMutation,
 } from "../../../../../hooks/useMutation";
 import DropDown from "../../../../General/DropDown";
-import { useNavigation } from "expo-router";
+
 import AreaChart from "./AreaChart";
 import PieChart from "./PieChart";
 import styles from "./styles";
@@ -34,7 +36,7 @@ export default function AnalysisView({ selectedTab }: IAnalysisViewProps) {
     trigger();
     custodianTrigger();
   }, []);
-  const handleDataPointClick = (event: any, props: any) => {
+  const handleDataPointClick = (event: any, props: { datum?: { label?: string } }) => {
     navigation.navigate("profile/Detail", { title: props.datum?.label });
   };
 
@@ -54,7 +56,7 @@ export default function AnalysisView({ selectedTab }: IAnalysisViewProps) {
               key={index}
               item={item}
               handleDataPointClick={(event: any, props: any) =>
-                handleDataPointClick(event, props)
+                { handleDataPointClick(event, props); }
               }
             />
           );

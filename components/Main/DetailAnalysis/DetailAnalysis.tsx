@@ -1,14 +1,14 @@
+import React from "react";
 import { StyleSheet } from "react-native";
+import { config } from "@gluestack-ui/config";
 import {
-  GluestackUIProvider,
   Box,
   FlatList,
+  GluestackUIProvider,
 } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config";
-import React from "react";
+
 import DropDown from "../../../components/General/DropDown";
 import Tab from "../../../components/General/Tab/Tab";
-import { BLACK_COLOR_CODE } from "../../../constants/Colors";
 import { DUMMY_DETAIL_DATA } from "../../../constants/DummyData";
 
 const DetailAnalysis = () => {
