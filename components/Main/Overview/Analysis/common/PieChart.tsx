@@ -1,9 +1,12 @@
-import { View, Text, FlatList } from "@gluestack-ui/themed";
 import React from "react";
-import { VictoryChart, VictoryLabel, VictoryPie } from "victory-native";
-import { RANDOM_COLORS_ARRAY } from "../../../../../constants/Colors";
 import { Text as RNText } from "react-native";
+import { FlatList,Text, View } from "@gluestack-ui/themed";
+
+import { RANDOM_COLORS_ARRAY } from "../../../../../constants/Colors";
+
 import styles from "./styles";
+
+import { VictoryChart, VictoryLabel, VictoryPie } from "victory-native";
 const PieChart = (props: any) => {
   const { handleDataPointClick, item } = props;
 

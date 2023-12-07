@@ -36,7 +36,7 @@ export default function AnalysisView({ selectedTab }: IAnalysisViewProps) {
     trigger();
     custodianTrigger();
   }, []);
-  const handleDataPointClick = (event: any, props: { datum?: { label?: string } }) => {
+  const handleDataPointClick = (event: any, props: any) => {
     navigation.navigate("profile/Detail", { title: props.datum?.label });
   };
 

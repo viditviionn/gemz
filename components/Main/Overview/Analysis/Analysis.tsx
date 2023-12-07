@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import AnalysisView from "./common/AnalysisView";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+
 import Colors from "../../../../constants/Colors";
+
+import AnalysisView from "./common/AnalysisView";
 import RelativePerformance from "./common/RelativePerformance";
 export default function Analysis() {
   const [selectedTab, setSelectedTab] = useState(0);

@@ -1,14 +1,16 @@
-import { StyleSheet } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
 import React, { useRef, useState } from "react";
-import { GluestackUIProvider, Box, Text } from "@gluestack-ui/themed";
+import { StyleSheet } from "react-native";
 import { config } from "@gluestack-ui/config";
+import { Box, GluestackUIProvider, Text } from "@gluestack-ui/themed";
+
 import {
   BLACK_COLOR_CODE,
   LIGHT_GREY_COLOR_CODE,
   WHITE_COLOR_CODE,
 } from "../../../constants/Colors";
 import { DUMMY_DROPDOWN_DATA } from "../../../constants/DummyData";
+
+import { Dropdown } from "react-native-element-dropdown";
 
 const DropDown = (props: any) => {
   const {
@@ -43,11 +45,11 @@ const DropDown = (props: any) => {
           ]}
           itemTextStyle={styles.itemTextStyle}
           placeholderStyle={styles.placeholderStyle}
-          data={dropdwnData ? dropdwnData : DUMMY_DROPDOWN_DATA}
+          data={dropdwnData || DUMMY_DROPDOWN_DATA}
           maxHeight={300}
-          labelField={labelField ? labelField : "label"}
-          valueField={valueField ? valueField : "value"}
-          placeholder={placeholder ? placeholder : "Select"}
+          labelField={labelField || "label"}
+          valueField={valueField || "value"}
+          placeholder={placeholder || "Select"}
           value={status}
           onChange={(item) => {
             onChange(item);
@@ -62,25 +64,25 @@ const DropDown = (props: any) => {
 export default DropDown;
 
 const styles = StyleSheet.create({
-  mainBox: {
-    marginVertical: 20,
-    marginHorizontal: 15,
-  },
   dropdown: {
     backgroundColor: WHITE_COLOR_CODE,
-    borderRadius: 5,
-    padding: 5,
     borderColor: LIGHT_GREY_COLOR_CODE,
+    borderRadius: 5,
     borderWidth: 1,
+    padding: 5,
+  },
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 11,
+  },
+  itemTextStyle: { color: BLACK_COLOR_CODE, fontSize: 20 },
+  mainBox: {
+    marginHorizontal: 15,
+    marginVertical: 20,
   },
   placeholderStyle: {
     color: BLACK_COLOR_CODE,
   },
-  item: {
-    padding: 11,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  itemTextStyle: { fontSize: 20, color: BLACK_COLOR_CODE },
 });

@@ -1,7 +1,8 @@
-import { StyleSheet } from "react-native";
 import React from "react";
-import { Box, GluestackUIProvider, Image, Text } from "@gluestack-ui/themed";
+import { StyleSheet } from "react-native";
 import { config } from "@gluestack-ui/config";
+import { Box, GluestackUIProvider, Image, Text } from "@gluestack-ui/themed";
+
 import {
   BLACK_COLOR_CODE,
   BLUE_COLOR_CODE,
@@ -106,35 +107,35 @@ const Tab = (props: any) => {
 export default Tab;
 
 const styles = StyleSheet.create({
-  mainView: {
-    display: "flex",
-    marginHorizontal: 14,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 20,
-    borderColor: SECOND_WHITE_COLOR,
-  },
-  innerView: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  textHeadStyle: {
-    color: BLACK_COLOR_CODE,
-  },
   countryStyle: {
+    borderColor: SECOND_WHITE_COLOR,
+    borderRadius: 5,
+    borderWidth: 1,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 70,
-    borderWidth: 1,
     paddingHorizontal: 4,
     paddingVertical: 2,
-    borderRadius: 5,
+    width: 70,
+  },
+  innerView: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginBottom: 10,
+  },
+  mainView: {
     borderColor: SECOND_WHITE_COLOR,
+    borderRadius: 10,
+    borderWidth: 1,
+    display: "flex",
+    marginBottom: 20,
+    marginHorizontal: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+  },
+  textHeadStyle: {
+    color: BLACK_COLOR_CODE,
   },
   textStyle: {
     color: LIGHT_GREY_COLOR_CODE,

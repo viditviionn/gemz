@@ -1,109 +1,105 @@
+import { StyleSheet } from "react-native";
+
 import {
   BLACK_COLOR_CODE,
   GREY_COLOR_CODE,
   LIGHT_GREY_COLOR_CODE,
   WHITE_COLOR_CODE,
 } from "../../../../../constants/Colors";
-import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  mainContainer: {},
-  chartHeading: {
-    fontSize: 30,
-    fontWeight: "500",
+  border: {
+    borderColor: LIGHT_GREY_COLOR_CODE,
+    borderWidth: 0.5,
+    marginHorizontal: 40,
+    marginVertical: 3,
+  },
+  box: {
+    height: 20,
+    width: 20,
+  },
+  centerTotalText: {
     color: BLACK_COLOR_CODE,
-    marginHorizontal: 20,
-    marginBottom: 20,
+    fontFamily: "Poppins",
+    fontSize: 17,
+    fontWeight: "500",
+    textAlign: "center",
+  },
+  centerTotalTextCount: {
+    color: BLACK_COLOR_CODE,
+    fontSize: 20,
+    fontWeight: "600",
+    marginTop: 20,
+    textAlign: "center",
   },
   chartDetailWrap: {
     alignItems: "center",
     marginHorizontal: 30,
     margin: 5,
   },
-  detailNameWrap: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  box: {
-    height: 20,
-    width: 20,
-  },
-  detailLabelView: { paddingVertical: 5 },
-  detailLabelText: {
-    fontWeight: "600",
-    fontSize: 18,
-    color: GREY_COLOR_CODE,
-  },
-  percentageText: { fontWeight: "600", fontSize: 18 },
-  border: {
-    borderWidth: 0.5,
-    borderColor: LIGHT_GREY_COLOR_CODE,
-    marginHorizontal: 40,
-    marginVertical: 3,
-  },
-  selectedBox: {
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginVertical: 8,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    borderRadius: 10,
-  },
-  innerBoxVw: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 15,
-    marginVertical: 5,
-    marginHorizontal: 5,
-    minWidth: 50,
-    borderWidth: 0.5,
-    borderColor: LIGHT_GREY_COLOR_CODE,
-    borderRadius: 3,
-  },
-
-  mainWrap: { flex: 1, alignItems: "center" },
-  jcc: {
-    justifyContent: "center",
-  },
-  centerTotalText: {
-    textAlign: "center",
-    fontWeight: "500",
-    fontSize: 17,
-    fontFamily: "Poppins",
-    color: BLACK_COLOR_CODE,
-  },
-  centerTotalTextCount: {
-    textAlign: "center",
-    fontWeight: "600",
-    fontSize: 20,
-    marginTop: 20,
-    color: BLACK_COLOR_CODE,
-  },
   chartDetailWrapPie: {
     alignItems: "center",
     flexDirection: "row",
     marginHorizontal: 30,
   },
-  detailLabelTextPie: {
-    fontWeight: "600",
-    fontSize: 18,
-    width: "85%",
+  chartHeading: {
+    color: BLACK_COLOR_CODE,
+    fontSize: 30,
+    fontWeight: "500",
+    marginBottom: 20,
+    marginHorizontal: 20,
   },
   container: {
     backgroundColor: WHITE_COLOR_CODE,
-    padding: 10,
     borderRadius: 10,
+    padding: 10,
+  },
+  detailLabelText: {
+    color: GREY_COLOR_CODE,
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  detailLabelTextPie: {
+    fontSize: 18,
+    fontWeight: "600",
+    width: "85%",
+  },
+  detailLabelView: { paddingVertical: 5 },
+
+  detailNameWrap: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
   },
   headerContainer: {
     alignItems: "center",
     flex: 1,
     justifyContent: "space-between",
   },
-  title: {
-    fontSize: 16,
-    color: "black",
-    fontFamily: "Poppins",
+  innerBoxVw: {
+    alignItems: "center",
+    borderColor: LIGHT_GREY_COLOR_CODE,
+    borderRadius: 3,
+    borderWidth: 0.5,
+    flexDirection: "row",
+    marginHorizontal: 5,
+    marginVertical: 5,
+    minWidth: 50,
+    paddingHorizontal: 15,
+  },
+  jcc: {
+    justifyContent: "center",
+  },
+  mainContainer: {},
+  mainWrap: { alignItems: "center", flex: 1 },
+  percentageText: { fontSize: 18, fontWeight: "600" },
+  selectedBox: {
+    borderRadius: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginVertical: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   selectedSwitchButton: {
     backgroundColor: "#1890FF",
@@ -130,6 +126,11 @@ const styles = StyleSheet.create({
   switchButtonText: {
     fontSize: 14,
     fontWeight: "bold",
+  },
+  title: {
+    color: "black",
+    fontFamily: "Poppins",
+    fontSize: 16,
   },
 });
 

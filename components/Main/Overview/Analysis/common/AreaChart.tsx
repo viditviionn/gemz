@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Text as RNText } from "react-native";
-import { View, Text } from "@gluestack-ui/themed";
+import { Text,View } from "@gluestack-ui/themed";
+
+import { RANDOM_COLORS_ARRAY } from "../../../../../constants/Colors";
+import { useAuthServerMutation } from "../../../../../hooks/useMutation";
+
+import styles from "./styles";
+
 import {
   VictoryArea,
   VictoryChart,
   VictoryClipContainer,
   VictoryStack,
 } from "victory-native";
-import { RANDOM_COLORS_ARRAY } from "../../../../../constants/Colors";
-import { useAuthServerMutation } from "../../../../../hooks/useMutation";
-import styles from "./styles";
 
 export default function AreaChart(props: any) {
   const { headingText, apiEnd } = props;
